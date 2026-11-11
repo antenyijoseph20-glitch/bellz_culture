@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{.BrandName}} | Handcrafted Luxury Shoes & Bags</title>
+
+    <meta name="description" content="Discover handcrafted luxury leather shoes, handbags and custom fashion accessories from Bellz Culture.">
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+
+            <a href="#" class="brand-logo">
+                {{.BrandName}}<span class="dot">.</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#about">About Founder</a>
+                <a href="#collection">Product Catalog</a>
+                <a href="#craftsmanship">Craftsmanship</a>
+                <a href="#contact">Contact Us</a>
+
+                <a href="https://wa.me/{{.PhoneNumber}}?text=Hello%20Bellz%20Culture,%20I%20would%20like%20to%20place%20an%20order."
+                   class="btn-whatsapp-nav"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Order on WhatsApp
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-grid">
+
+            <div class="hero-content">
+                <span class="badge-hero">Artisan Excellence & Bespoke Craft</span>
+
+                <h1>Unmatched Style in Every Stitch.</h1>
+
+                <p>
+                    Discover luxury handmade leather handbags, statement footwear,
+                    and custom coordinated sets crafted with precision and passion.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#collection" class="btn-primary">
+                        Browse All Products
+                    </a>
+
+                    <a href="https://wa.me/{{.PhoneNumber}}?text=Hello%20Bellz%20Culture,%20I%20want%20to%20discuss%20a%20custom%20order."
+                       class="btn-outline"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Custom Order Request
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-image-wrapper">
+                <img src="{{.HeroImage}}"
+                     alt="Bellz Culture handcrafted products"
+                     class="hero-img">
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Trust Strip -->
+    <section class="trust-strip">
+        <div class="container trust-grid">
+
+            <div class="trust-item">
+                <div class="trust-icon">✨</div>
+                <div>
+                    <h3>100% Handcrafted</h3>
+                    <p>Built with precision by master artisans.</p>
+                </div>
+            </div>
+
+            <div class="trust-item">
+                <div class="trust-icon">💎</div>
+                <div>
+                    <h3>Premium Materials</h3>
+                    <p>Sourced high-grade leathers and fabrics.</p>
+                </div>
+            </div>
+
+            <div class="trust-item">
+                <div class="trust-icon">🚚</div>
+                <div>
+                    <h3>Nationwide Delivery</h3>
+                    <p>Safe and fast dispatch to your doorstep.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- About Section / Founder Story -->
+    <section id="about" class="about-section">
+        <div class="container grid-2">
+
+            <div class="about-text">
+                <h2>Meet the Creative Force</h2>
+
+                <p>{{.FounderBio}}</p>
+
+                <div class="stats-row">
+                    <div>
+                        <h4>100%</h4>
+                        <p>Handmade Quality</p>
+                    </div>
+
+                    <div>
+                        <h4>Bespoke</h4>
+                        <p>Custom Orders</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="craft-image-wrapper">
+                <img src="{{.CraftImage}}"
+                     alt="Bellz Culture workshop"
+                     class="craft-img">
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Craftsmanship Anchor -->
+    <div id="craftsmanship"></div>
+
+
+    <!-- Product Catalogue -->
+    <section id="collection" class="products-section">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Product & Order Catalog</h2>
+
+                <p>
+                    Explore our showcase of handbags and footwear.
+                    Click order to connect instantly on WhatsApp.
+                </p>
+            </div>
+
+            <div class="product-grid">
+
+                {{range .Products}}
+
+                <div class="product-card">
+
+                    <div class="image-box">
+                        <span class="card-badge">{{.Badge}}</span>
+
+                        <img src="{{.ImageURL}}"
+                             alt="{{.Name}}"
+                             class="product-img">
+                    </div>
+
+                    <div class="card-content">
+
+                        <span class="category">{{.Category}}</span>
+
+                        <h3>{{.Name}}</h3>
+
+                        <p class="tagline">"{{.Tagline}}"</p>
+
+                        <p class="description">{{.Description}}</p>
+
+                        <div class="card-footer">
+
+                            <span class="price">{{.Price}}</span>
+
+                            <a href="https://wa.me/{{$.PhoneNumber}}?text=Hello%20Bellz%20Culture,%20I%20would%20like%20to%20order%20the%20{{.Name}}%20priced%20at%20{{.Price}}"
+                               class="btn-card"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Order on WhatsApp
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                {{end}}
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Get in Touch</h2>
+
+                <p>
+                    We would love to hear from you.
+                    Contact Bellz Culture for enquiries, custom orders
+                    and product information.
+                </p>
+            </div>
+
+            <div class="contact-grid">
+
+                <!-- Email -->
+                <div class="contact-card">
+                    <div class="contact-icon">✉️</div>
+
+                    <h3>Email Us</h3>
+
+                    <p>Send us your questions and enquiries.</p>
+
+                    <a href="mailto:{{.Email}}">
+                        {{.Email}}
+                    </a>
+                </div>
+
+                <!-- Telephone -->
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+
+                    <h3>Call Us</h3>
+
+                    <p>Speak directly with Bellz Culture.</p>
+
+                    <a href="tel:+{{.PhoneNumber}}">
+                        +234 907 999 7307
+                    </a>
+                </div>
+
+                <!-- Business Address -->
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+
+                    <h3>Visit Us</h3>
+
+                    <p>Our business location.</p>
+
+                    <span>{{.Address}}</span>
+                </div>
+
+            </div>
+
+            <div class="contact-action">
+
+                <a href="https://wa.me/{{.PhoneNumber}}?text=Hello%20Bellz%20Culture,%20I%20would%20like%20to%20make%20an%20enquiry."
+                   class="btn-whatsapp-nav"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Chat with Us on WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+
+            <p>
+                &copy; 2026 {{.BrandName}}.
+                All rights reserved.
+                Handcrafted with passion and durability.
+            </p>
+
+            <p>
+                Email:
+                <a href="mailto:{{.Email}}">{{.Email}}</a>
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

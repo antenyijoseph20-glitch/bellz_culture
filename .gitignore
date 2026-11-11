@@ -1,0 +1,24 @@
+# Compiled application
+/bellz_culture
+*.exe
+*.out
+
+# Backup images
+/static/images_backup/
+
+# Unused image list
+/static/images.py
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Go test and coverage files
+coverage.out
+*.test
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
