@@ -1,12 +1,11 @@
-package main
+package handlers
 
 import (
-	"fmt"
+	"bytes"
 	"html/template"
+	"io/fs"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
 )
 
 type Product struct {
@@ -32,29 +31,20 @@ type PageData struct {
 	Products    []Product
 }
 
-func main() {
-	// Use the current working directory so it always finds your folders correctly
-	cwd, err := os.Getwd()
+// NewHomeHandler parses the embedded homepage and returns its HTTP handler.
+func NewHomeHandler(templateFS fs.FS) (http.Handler, error) {
+	tmpl, err := template.ParseFS(templateFS, "index.html")
 	if err != nil {
-		log.Fatalf("Error getting current directory: %v", err)
+		return nil, err
 	}
 
-	templatePath := filepath.Join(cwd, "templates", "index.html")
-	if _, err := os.Stat(templatePath); os.IsNotExist(err) {
-		log.Fatalf("CRITICAL ERROR: 'templates/index.html' not found at %s", templatePath)
-	}
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet && r.Method != http.MethodHead {
+			w.Header().Set("Allow", "GET, HEAD")
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
 
-	tmpl, err := template.ParseFiles(templatePath)
-	if err != nil {
-		log.Fatalf("Error parsing template: %v", err)
-	}
-
-	// Set absolute path for static assets
-	staticDir := filepath.Join(cwd, "static")
-	fs := http.FileServer(http.Dir(staticDir))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := PageData{
 			BrandName:   "Bellz Culture",
 			Tagline:     "Handcrafted Luxury Leather Shoes & Bags",
@@ -158,20 +148,20 @@ func main() {
 			},
 		}
 
-		err := tmpl.Execute(w, data)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("Template error: %v", err), http.StatusInternalServerError)
+		var page bytes.Buffer
+		if err := tmpl.Execute(&page, data); err != nil {
+			log.Printf("homepage template execution failed: %v", err)
+			http.Error(w, "Unable to display this page right now.", http.StatusInternalServerError)
+			return
 		}
-	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(http.StatusOK)
 
-	fmt.Printf("Bellz Culture server running on port %s\n", port)
-
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatal(err)
-	}
+		if r.Method == http.MethodGet {
+			if _, err := page.WriteTo(w); err != nil {
+				log.Printf("homepage response write failed: %v", err)
+			}
+		}
+	}), nil
 }
